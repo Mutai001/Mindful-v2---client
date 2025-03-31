@@ -82,7 +82,7 @@ function App() {
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/user-bookings" element={<UserBookings />} />
         <Route path="/therapist-bookings" element={<TherapistsBookings therapistId={3} />} />
-        <Route path="/appointments-requests" element={<AppointmentsRequests therapistId={3} />} />
+        <Route path="/appointments-requests" element={<AppointmentsRequests therapistId={5} />} />
         <Route path="/patient-overview/:id" element={<PatientOverview />} />
         <Route path="/user-message" element={<UserMessage />} />
         <Route path="/profile" element={<Profile />} />
