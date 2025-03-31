@@ -117,7 +117,7 @@ const Bookings = ({ therapistId }: { therapistId: number }) => {
     fetchBookings();
   }, [therapistId]);
 
-  const createMeetLink = (patientEmail: string, sessionDate: string, sessionTime: string) => {
+  const createMeetLink = (sessionDate: string, sessionTime: string) => {
     const formattedDate = new Date(`${sessionDate}T${sessionTime}`).toISOString();
     return `https://meet.google.com/new?authuser=0&date=${encodeURIComponent(formattedDate)}`;
   };
@@ -254,7 +254,9 @@ const Bookings = ({ therapistId }: { therapistId: number }) => {
           </div>
           <div className="flex items-center">
             <Filter size={18} className="text-gray-500 mr-2" />
+            <label htmlFor="statusFilter" className="sr-only">Filter by status</label>
             <select
+              id="statusFilter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
@@ -266,7 +268,9 @@ const Bookings = ({ therapistId }: { therapistId: number }) => {
             </select>
           </div>
           <div className="flex items-center">
+            <label htmlFor="itemsPerPage" className="sr-only">Items per page</label>
             <select
+              id="itemsPerPage"
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(parseInt(e.target.value))}
               className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
@@ -354,7 +358,6 @@ const Bookings = ({ therapistId }: { therapistId: number }) => {
             <tbody className="bg-white divide-y divide-gray-200">
               {currentBookings.map((booking) => {
                 const meetLink = booking.meet_link || createMeetLink(
-                  booking.patient.email, 
                   booking.slot.date, 
                   booking.slot.start_time
                 );
