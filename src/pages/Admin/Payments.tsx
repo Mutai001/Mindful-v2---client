@@ -26,7 +26,7 @@ const Payments = () => {
   // Fetch Payments from Backend
   const fetchPayments = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/mpesa/transactions");
+      const response = await fetch("http://localhost:8000/api/mpesa");
       const data = await response.json();
       
       // Check if response has success: true and data array
