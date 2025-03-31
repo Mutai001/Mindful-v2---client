@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 // import Services from "./pages/Services";
 // import About from "./pages/About";
@@ -40,6 +40,7 @@ import Profile from "./Components/Therapists/Profile";
 import Settings from "./Components/Therapists/Settings";
 import DoctorsList2 from "./Components/DoctorsList2";
 import Specialists from "./Components/Specialists";
+import NotFoundPage from "./pages/NotFound";
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import "./index.css";
 
@@ -86,7 +87,8 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/sessions" element={<DoctorsList2 />} />
         <Route path="/specialists" element={<Specialists />} />
-        <Route
+        <Route path="/404" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />        <Route
            path="/checkout"
            element={<CheckoutPage amount={100} />} // Pass an amount (e.g., 100)
         />
