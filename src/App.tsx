@@ -41,6 +41,7 @@ import Settings from "./Components/Therapists/Settings";
 import DoctorsList2 from "./Components/DoctorsList2";
 import Specialists from "./Components/Specialists";
 import NotFoundPage from "./pages/NotFound";
+import Slots from "./Components/Slots";
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import "./index.css";
 
@@ -74,6 +75,7 @@ function App() {
         <Route path="/admin/sessions" element={<Sessions />} />
         <Route path="/admin/bookings" element={<Bookings />} />
         <Route path="/admin/therapists" element={<Therapists />} />
+        <Route path="/admin/assign-slots" element={<Slots therapistId={1} therapistName="Dr. Cyrus Kimutai" therapistSpecialization="Psychology" />} />
         <Route path="/admin/payments" element={<Payments />} />
         <Route path="/therapist-dashboard/:id" element={<TherapistsDashboard />} />
         <Route path="/book-payment" element={<BookPayment />} />

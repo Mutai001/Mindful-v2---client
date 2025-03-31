@@ -1,9 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import AdminLayout from "../../Components/Admin/AdminLayout";
-import { FaDownload, FaFilter, FaSearch, FaUserPlus, FaEdit, FaTrash, FaFilePdf, FaFileExcel, FaCalendarAlt } from "react-icons/fa";
+import { FaDownload, FaFilter, FaSearch, FaUserPlus, FaEdit, FaTrash, FaFilePdf, FaFileExcel, FaCalendarAlt, FaTimes } from "react-icons/fa";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
 
 interface Therapist {
   id: number;
@@ -16,9 +21,21 @@ interface Therapist {
   created_at?: string;
 }
 
+interface TimeSlot {
+  id?: number;
+  therapist_id: number;
+  date: string;
+  start_time: string;
+  end_time: string;
+  is_booked: boolean;
+}
+
 const Therapists = () => {
+  // State for therapists data
   const [therapists, setTherapists] = useState<Therapist[]>([]);
   const [filteredTherapists, setFilteredTherapists] = useState<Therapist[]>([]);
+  
+  // State for therapist CRUD operations
   const [newTherapist, setNewTherapist] = useState<Omit<Therapist, 'id' | 'created_at' | 'role'> & { password: string }>({
     full_name: "",
     email: "",
@@ -28,6 +45,8 @@ const Therapists = () => {
     password: ""
   });
   const [editingTherapist, setEditingTherapist] = useState<Therapist | null>(null);
+  
+  // UI state
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState<boolean>(false);
@@ -36,9 +55,20 @@ const Therapists = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [therapistsPerPage] = useState<number>(10);
   const [showExportOptions, setShowExportOptions] = useState<boolean>(false);
+  
+  // Slot assignment state
+  const [showSlotModal, setShowSlotModal] = useState<boolean>(false);
+  const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(null);
+  const [slotDate, setSlotDate] = useState<Date | null>(new Date());
+  const [slotStartTime, setSlotStartTime] = useState<string>('09:00');
+  const [slotEndTime, setSlotEndTime] = useState<string>('10:00');
+  const [creatingSlot, setCreatingSlot] = useState<boolean>(false);
+  const [therapistSlots, setTherapistSlots] = useState<TimeSlot[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState<boolean>(false);
+  
   const exportRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const slotModalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchTherapists();
@@ -55,6 +85,9 @@ const Therapists = () => {
       }
       if (exportRef.current && !exportRef.current.contains(event.target as Node)) {
         setShowExportOptions(false);
+      }
+      if (slotModalRef.current && !slotModalRef.current.contains(event.target as Node)) {
+        setShowSlotModal(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -80,6 +113,20 @@ const Therapists = () => {
     }
   };
 
+  const fetchTherapistSlots = async (therapistId: number) => {
+    setLoadingSlots(true);
+    try {
+      const response = await fetch(`http://localhost:8000/api/time-slots?therapist_id=${therapistId}`);
+      if (!response.ok) throw new Error("Failed to fetch slots");
+      const data = await response.json();
+      setTherapistSlots(data);
+    } catch (err) {
+      toast.error((err as Error).message);
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
+
   const applyFilters = () => {
     let result = [...therapists];
 
@@ -100,7 +147,7 @@ const Therapists = () => {
 
   const handleCreate = async () => {
     if (!newTherapist.full_name || !newTherapist.email || !newTherapist.contact_phone || !newTherapist.password) {
-      alert("Please fill in all required fields (Name, Email, Phone, and Password).");
+      toast.error("Please fill in all required fields (Name, Email, Phone, and Password).");
       return;
     }
 
@@ -130,9 +177,10 @@ const Therapists = () => {
         password: ""
       });
       setIsModalOpen(false);
+      toast.success("Therapist created successfully");
       fetchTherapists();
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message);
     }
   };
 
@@ -144,8 +192,9 @@ const Therapists = () => {
       });
       if (!response.ok) throw new Error("Failed to delete therapist");
       setTherapists(therapists.filter((therapist) => therapist.id !== id));
+      toast.success("Therapist deleted successfully");
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message);
     }
   };
 
@@ -170,8 +219,71 @@ const Therapists = () => {
       setTherapists(therapists.map((therapist) => (therapist.id === editingTherapist.id ? editingTherapist : therapist)));
       setEditingTherapist(null);
       setIsModalOpen(false);
+      toast.success("Therapist updated successfully");
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message);
+    }
+  };
+
+  const handleAssignSlots = (therapist: Therapist) => {
+    setSelectedTherapist(therapist);
+    fetchTherapistSlots(therapist.id);
+    setShowSlotModal(true);
+  };
+
+  const handleCreateSlot = async () => {
+    if (!selectedTherapist || !slotDate) {
+      toast.error("Please select a therapist and date");
+      return;
+    }
+
+    if (slotStartTime >= slotEndTime) {
+      toast.error("End time must be after start time");
+      return;
+    }
+
+    setCreatingSlot(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/time-slots", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          therapist_id: selectedTherapist.id,
+          date: slotDate.toISOString().split('T')[0],
+          start_time: slotStartTime,
+          end_time: slotEndTime,
+          is_booked: false
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to create time slot");
+      }
+
+      const newSlot = await response.json();
+      setTherapistSlots([...therapistSlots, newSlot]);
+      setSlotStartTime('09:00');
+      setSlotEndTime('10:00');
+      toast.success("Time slot created successfully");
+    } catch (err) {
+      toast.error((err as Error).message);
+    } finally {
+      setCreatingSlot(false);
+    }
+  };
+
+  const handleDeleteSlot = async (slotId: number) => {
+    if (!window.confirm("Are you sure you want to delete this time slot?")) return;
+    try {
+      const response = await fetch(`http://localhost:8000/api/time-slots/${slotId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete time slot");
+      setTherapistSlots(therapistSlots.filter(slot => slot.id !== slotId));
+      toast.success("Time slot deleted successfully");
+    } catch (err) {
+      toast.error((err as Error).message);
     }
   };
 
@@ -243,8 +355,25 @@ const Therapists = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const assignSlots = (therapistId: number) => {
-    navigate(`/admin/assign-slots/${therapistId}`);
+  const formatTime = (timeString: string) => {
+    const [hours, minutes] = timeString.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours, 10));
+    date.setMinutes(parseInt(minutes, 10));
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   };
 
   return (
@@ -397,7 +526,7 @@ const Therapists = () => {
                         <td className="p-3">
                           <div className="flex space-x-2">
                             <button 
-                              onClick={() => assignSlots(therapist.id)} 
+                              onClick={() => handleAssignSlots(therapist)} 
                               className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded"
                               aria-label={`Assign slots to ${therapist.full_name}`}
                               title={`Assign slots to ${therapist.full_name}`}
@@ -601,6 +730,126 @@ const Therapists = () => {
                 aria-label={editingTherapist ? "Update therapist information" : "Add new therapist"}
               >
                 {editingTherapist ? "Update Therapist" : "Add Therapist"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Slot Assignment Modal */}
+      {showSlotModal && selectedTherapist && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" role="dialog" aria-modal="true" aria-labelledby="slot-modal-title">
+          <div ref={slotModalRef} className="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b flex justify-between items-center">
+              <h3 id="slot-modal-title" className="text-xl font-bold text-gray-800">
+                Assign Time Slots for {selectedTherapist.full_name}
+              </h3>
+              <button 
+                onClick={() => setShowSlotModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+                aria-label="Close modal"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Create New Slot */}
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-700 mb-4">Create New Time Slot</h4>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">Date</label>
+                      <DatePicker
+                        selected={slotDate}
+                        onChange={(date) => setSlotDate(date)}
+                        minDate={new Date()}
+                        className="w-full border border-gray-300 rounded p-2"
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm text-gray-600 mb-1">Start Time</label>
+                        <TimePicker
+                          onChange={setSlotStartTime}
+                          value={slotStartTime}
+                          disableClock={true}
+                          className="w-full border border-gray-300 rounded p-2"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-600 mb-1">End Time</label>
+                        <TimePicker
+                          onChange={setSlotEndTime}
+                          value={slotEndTime}
+                          disableClock={true}
+                          className="w-full border border-gray-300 rounded p-2"
+                        />
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={handleCreateSlot}
+                      disabled={creatingSlot}
+                      className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center"
+                    >
+                      {creatingSlot ? (
+                        <BeatLoader color="#ffffff" size={8} />
+                      ) : (
+                        "Create Slot"
+                      )}
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Existing Slots */}
+                <div>
+                  <h4 className="font-medium text-gray-700 mb-4">Existing Time Slots</h4>
+                  
+                  {loadingSlots ? (
+                    <div className="flex justify-center">
+                      <BeatLoader color="#3B82F6" />
+                    </div>
+                  ) : therapistSlots.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No time slots assigned yet</p>
+                  ) : (
+                    <div className="space-y-2 max-h-64 overflow-y-auto">
+                      {therapistSlots.map((slot) => (
+                        <div key={slot.id} className="border rounded-lg p-3 flex justify-between items-center">
+                          <div>
+                            <div className="font-medium">{formatDate(slot.date)}</div>
+                            <div className="text-sm text-gray-600">
+                              {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                              {slot.is_booked && (
+                                <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                                  Booked
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => slot.id && handleDeleteSlot(slot.id)}
+                            className="text-red-500 hover:text-red-700 p-1"
+                            disabled={slot.is_booked}
+                            title={slot.is_booked ? "Cannot delete booked slot" : "Delete slot"}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="p-4 border-t bg-gray-50 flex justify-end">
+              <button
+                onClick={() => setShowSlotModal(false)}
+                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+              >
+                Close
               </button>
             </div>
           </div>
