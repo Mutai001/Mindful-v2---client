@@ -246,7 +246,7 @@ const Appointments = () => {
           <button
             onClick={downloadReport}
             disabled={downloading || appointments.length === 0}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 flex items-center gap-2"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-400 disabled:bg-gray-400 flex items-center gap-2"
           >
             {downloading ? (
               <>
@@ -316,7 +316,7 @@ const Appointments = () => {
                         <span className="text-gray-500">Not paid</span>
                       )}
                     </td>
-                    <td className="border px-4 py-3 space-x-2">
+                    <td className="border px-4 py-3 w-1.5 space-x-2">
                       <button
                         onClick={() => handleDelete(appointment.id)}
                         className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"

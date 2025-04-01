@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         <Link to="/appointments-requests" className="flex items-center gap-3 p-2 rounded hover:bg-green-700 transition">
           <FaCalendar size={24} /> <span className={`${isOpen ? "inline" : "hidden"} transition-all`}>Appointments</span>
         </Link>
-        <Link to="/patient-overview/:id" className="flex items-center gap-3 p-2 rounded hover:bg-green-700 transition">
+        <Link to="/patient-overview" className="flex items-center gap-3 p-2 rounded hover:bg-green-700 transition">
           <FaHeadSideVirus size={24} /> <span className={`${isOpen ? "inline" : "hidden"} transition-all`}>Patients</span>
         </Link>
         <Link to="/chatbot" className="flex items-center gap-3 p-2 rounded hover:bg-green-700 transition">
