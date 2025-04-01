@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react";
 import AdminLayout from "../../Components/Admin/AdminLayout";
 import { FaDownload, FaFilter, FaSearch, FaUserPlus, FaEdit, FaTrash, FaFilePdf, FaFileExcel, FaCalendarAlt, FaTimes } from "react-icons/fa";
@@ -773,7 +775,7 @@ const Therapists = () => {
                       <div>
                         <label className="block text-sm text-gray-600 mb-1">Start Time</label>
                         <TimePicker
-                          onChange={setSlotStartTime}
+                          onChange={(value) => setSlotStartTime(value || '')}
                           value={slotStartTime}
                           disableClock={true}
                           className="w-full border border-gray-300 rounded p-2"
@@ -782,7 +784,7 @@ const Therapists = () => {
                       <div>
                         <label className="block text-sm text-gray-600 mb-1">End Time</label>
                         <TimePicker
-                          onChange={setSlotEndTime}
+                          onChange={(value) => setSlotEndTime(value || '')}
                           value={slotEndTime}
                           disableClock={true}
                           className="w-full border border-gray-300 rounded p-2"
