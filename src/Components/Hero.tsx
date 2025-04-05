@@ -1,25 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import heros1 from '../assets/images/heros1.jpg';
-import heros2 from '../assets/images/heros2.jpg';
-import heros3 from '../assets/images/heros3.jpg';
+import { motion, useAnimation } from "framer-motion";
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
-  const [currentImage, setCurrentImage] = useState(0);
-  
-  // Images for background rotation - using the imported images
-  const backgroundImages = [heros1, heros2, heros3];
-  
-  // Animation for background image transition
+  const controls = useAnimation();
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
-    }, 8000); // Change image every 8 seconds
-    
-    return () => clearInterval(interval);
+    controls.start({
+      opacity: 1,
+      transition: {
+        duration: 2,
+      },
+    });
   }, []);
 
   const handleBookAppointment = () => {
@@ -27,43 +21,147 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="w-full h-screen relative overflow-hidden bg-green-900">
-      {/* Animated Background Images with AnimatePresence for smooth transitions */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentImage}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 2, ease: "easeInOut" }}
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundImage: `url(${backgroundImages[currentImage]})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            zIndex: 0,
-          }}
-        />
-      </AnimatePresence>
-      
-      {/* Overlay gradient with animated opacity */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-green-900/70 to-green-800/90 z-10"
-        animate={{ 
-          opacity: [0.7, 0.8, 0.7],
-          background: [
-            "linear-gradient(to bottom, rgba(6, 78, 59, 0.7), rgba(6, 95, 70, 0.9))",
-            "linear-gradient(to bottom, rgba(6, 78, 59, 0.8), rgba(6, 95, 70, 0.9))",
-            "linear-gradient(to bottom, rgba(6, 78, 59, 0.7), rgba(6, 95, 70, 0.9))"
-          ]
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      
-      {/* Animated circles - representing mindfulness concepts with more complex animations */}
+    <section className="w-full h-screen relative overflow-hidden bg-gradient-to-b from-green-900 to-blue-900">
+      {/* Animated Brain Wave Background */}
+      <div className="absolute inset-0 z-0">
+        {/* Frequency Waves - Alpha waves (8-12 Hz) - associated with relaxation */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={`alpha-${i}`}
+            className="absolute h-1 bg-green-400/30 rounded-full left-0 right-0"
+            style={{ top: `${10 + i * 10}%`, height: '2px' }}
+            animate={{
+              x: ["-100%", "100%"],
+              scaleY: [1, 2, 1],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 8 + i,
+              ease: "linear",
+              delay: i * 0.5,
+            }}
+          />
+        ))}
+
+        {/* Frequency Waves - Theta waves (4-8 Hz) - associated with meditation */}
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={`theta-${i}`}
+            className="absolute h-1 bg-teal-400/30 rounded-full left-0 right-0"
+            style={{ top: `${15 + i * 12}%`, height: '3px' }}
+            animate={{
+              x: ["100%", "-100%"],
+              scaleY: [1, 3, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 10 + i,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+          />
+        ))}
+
+        {/* Frequency Waves - Beta waves (12-30 Hz) - associated with alertness */}
+        {[...Array(7)].map((_, i) => (
+          <motion.div
+            key={`beta-${i}`}
+            className="absolute h-1 bg-blue-400/20 rounded-full left-0 right-0"
+            style={{ top: `${20 + i * 8}%`, height: '1px' }}
+            animate={{
+              x: ["-100%", "100%"],
+              scaleY: [1, 4, 1],
+              opacity: [0.1, 0.4, 0.1],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 6 + i * 0.5,
+              ease: "linear",
+              delay: i * 0.2,
+            }}
+          />
+        ))}
+
+        {/* Neural Connection Points */}
+        {[...Array(35)].map((_, i) => (
+          <motion.div
+            key={`node-${i}`}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              width: `${Math.random() * 4 + 1}px`,
+              height: `${Math.random() * 4 + 1}px`,
+            }}
+            animate={{
+              opacity: [0.1, 0.6, 0.1],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: Math.random() * 4 + 2,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        {/* Neural Connections - Synapses */}
+        {[...Array(20)].map((_, i) => {
+          const x1 = Math.random() * 100;
+          const y1 = Math.random() * 100;
+          const x2 = x1 + (Math.random() * 30 - 15);
+          const y2 = y1 + (Math.random() * 30 - 15);
+          
+          return (
+            <motion.div
+              key={`synapse-${i}`}
+              className="absolute"
+              style={{
+                left: `${x1}%`,
+                top: `${y1}%`,
+                width: '1px',
+                height: '1px',
+              }}
+            >
+              <motion.svg
+                width={Math.abs(x2 - x1)}
+                height={Math.abs(y2 - y1)}
+                style={{
+                  position: 'absolute',
+                  transform: `translate(${x2 < x1 ? '100%' : '0'}, ${y2 < y1 ? '100%' : '0'})`,
+                }}
+              >
+                <motion.line
+                  x1={x2 < x1 ? Math.abs(x2 - x1) : 0}
+                  y1={y2 < y1 ? Math.abs(y2 - y1) : 0}
+                  x2={x2 < x1 ? 0 : Math.abs(x2 - x1)}
+                  y2={y2 < y1 ? 0 : Math.abs(y2 - y1)}
+                  stroke="rgba(255,255,255,0.2)"
+                  strokeWidth="0.5"
+                  initial={{ pathLength: 0 }}
+                  animate={{
+                    pathLength: [0, 1, 0],
+                    opacity: [0.1, 0.3, 0.1],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: Math.random() * 5 + 5,
+                    ease: "easeInOut",
+                    delay: Math.random() * 2,
+                  }}
+                />
+              </motion.svg>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Animated Resonance Circles - represents different mental states */}
       <div className="absolute inset-0 z-10 overflow-hidden">
         <motion.div
-          className="absolute w-64 h-64 rounded-full bg-green-500/20 blur-xl"
+          className="absolute w-64 h-64 rounded-full bg-green-500/10 blur-xl"
           animate={{
             x: ['-10%', '60%', '30%', '-10%'],
             y: ['15%', '30%', '60%', '15%'],
@@ -73,7 +171,7 @@ const Hero: React.FC = () => {
           transition={{ repeat: Infinity, duration: 30, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute w-72 h-72 rounded-full bg-blue-500/20 blur-xl"
+          className="absolute w-72 h-72 rounded-full bg-blue-500/10 blur-xl"
           animate={{
             x: ['70%', '20%', '50%', '70%'],
             y: ['60%', '20%', '30%', '60%'],
@@ -83,7 +181,7 @@ const Hero: React.FC = () => {
           transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute w-56 h-56 rounded-full bg-teal-400/20 blur-xl"
+          className="absolute w-56 h-56 rounded-full bg-teal-400/10 blur-xl"
           animate={{
             x: ['30%', '60%', '10%', '30%'],
             y: ['30%', '60%', '10%', '30%'],
@@ -93,7 +191,7 @@ const Hero: React.FC = () => {
           transition={{ repeat: Infinity, duration: 35, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute w-40 h-40 rounded-full bg-yellow-400/10 blur-xl"
+          className="absolute w-40 h-40 rounded-full bg-purple-400/10 blur-xl"
           animate={{
             x: ['10%', '40%', '70%', '10%'],
             y: ['40%', '70%', '20%', '40%'],
@@ -104,30 +202,14 @@ const Hero: React.FC = () => {
         />
       </div>
       
-      {/* Light particles floating effect */}
-      <div className="absolute inset-0 z-10">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full opacity-70"
-            initial={{
-              x: `${Math.random() * 100}%`,
-              y: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.3
-            }}
-            animate={{
-              y: [`${Math.random() * 100}%`, `${Math.random() * 100}%`],
-              x: [`${Math.random() * 100}%`, `${Math.random() * 100}%`],
-              opacity: [Math.random() * 0.5 + 0.3, Math.random() * 0.5 + 0.3]
-            }}
-            transition={{
-              duration: Math.random() * 20 + 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-        ))}
-      </div>
+      {/* Calming Pulse Overlay */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-green-900/20 to-blue-900/40 z-5"
+        animate={{ 
+          opacity: [0.4, 0.6, 0.4],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
       
       {/* Content Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col items-center justify-center relative z-20">
@@ -227,7 +309,8 @@ const Hero: React.FC = () => {
           {[
             { color: "bg-green-400", text: "Mindfulness" },
             { color: "bg-blue-400", text: "Balance" },
-            { color: "bg-teal-400", text: "Growth" }
+            { color: "bg-teal-400", text: "Growth" },
+            { color: "bg-purple-400", text: "Clarity" }
           ].map((item, index) => (
             <motion.span 
               key={item.text} 
@@ -275,27 +358,32 @@ const Hero: React.FC = () => {
           <span className="absolute inset-0 w-full h-full bg-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out opacity-30" />
         </motion.button>
         
-        {/* Scroll indicator with enhanced animation */}
+        {/* EEG Wave Indicator */}
         <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          animate={{ 
-            y: [0, 10, 0],
-            opacity: [0.5, 1, 0.5]
-          }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-32"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="100%" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <motion.path 
-              d="M12 5L12 19M12 19L18 13M12 19L6 13" 
+              d="M0 15 Q 10 15, 15 5 Q 20 -5, 25 15 Q 30 35, 35 15 Q 40 -5, 45 15 Q 50 35, 55 15 Q 60 -5, 65 15 Q 70 35, 75 15 Q 80 -5, 85 15 Q 90 35, 95 15 Q 100 -5, 100 15" 
               stroke="white" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
+              strokeWidth="1"
+              strokeOpacity="0.6"
+              fill="none"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1, repeat: Infinity, repeatDelay: 0.5 }}
+              animate={{ pathLength: 1, opacity: 0.6 }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.5 }}
             />
           </svg>
+          <motion.div
+            className="text-gray-300 text-xs text-center mt-1"
+            animate={{ opacity: [0.4, 0.8, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            Scroll to explore
+          </motion.div>
         </motion.div>
       </div>
     </section>
