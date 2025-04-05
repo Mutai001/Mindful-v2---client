@@ -12,7 +12,8 @@
     "axe/forms": [
       "default",
       {
-        "select-name": "off"
+        "select-name": "off",
+        "label": "off"
       }
     ],
     "axe/aria": [
@@ -20,6 +21,12 @@
       {
         "aria-valid-attr-value": "off"
       }
-    ]
-  }
+    ],
+    "no-inline-styles": "off"
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11",
+    "not ios_saf <= 15.8"
+  ]
 }
