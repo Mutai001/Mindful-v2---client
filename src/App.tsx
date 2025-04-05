@@ -1,8 +1,5 @@
-
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import Home from "./pages/Home";
-// import Services from "./pages/Services";
-// import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -41,61 +38,88 @@ import Settings from "./Components/Therapists/Settings";
 import DoctorsList2 from "./Components/DoctorsList2";
 import Specialists from "./Components/Specialists";
 import NotFoundPage from "./pages/NotFound";
-// import Slots from "./Components/Slots";
-import "react-toastify/dist/ReactToastify.css"; // Import toast styles
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
+import { JSX, ReactNode } from "react";
+
+// Layout component with Header and Footer
+const MainLayout = ({ children }: { children?: ReactNode }): JSX.Element => (
+  <>
+    <Header />
+    {children || <Outlet />}
+    <Footer />
+  </>
+);
+
+// Layout without Header and Footer
+const BlankLayout = ({ children }: { children?: ReactNode }): JSX.Element => (
+  <>{children || <Outlet />}</>
+);
 
 function App() {
-
   return (
     <Router>
       <Toaster position="top-right" />
-      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/services" element={<Services />} />
-        <Route path="/about" element={<About />} /> */}
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/chatbot" element={<Chatbot />} />
-        <Route path="/hero" element={<Hero />} />
-        <Route path="/case" element={<DetailsCaseStudies />} />
-        <Route path="/doctor"  element={<DoctorsList />} />
-        <Route path="/booktraining" element={<BookTraining />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/sidebar" element={<Sidebar isOpen={true} toggleSidebar={() => {}} />} />
-        <Route path="/payment" element={<UserPayment />} /> 
-        <Route path="/sessions" element={<Session />} />
-        <Route path="/book-session" element={<BookSession />} />
-        <Route path="/appointments" element={<Appointment />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/appointments" element={<AppointmentTable />} />
-        <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin/sessions" element={<Sessions />} />
-        <Route path="/admin/bookings" element={<Bookings />} />
-        <Route path="/admin/therapists" element={<Therapists />} />
-        {/* <Route path="/admin/assign-slots" element={<Slots />} /> */}
-        <Route path="/admin/payments" element={<Payments />} />
-        <Route path="/therapist-dashboard/:id" element={<TherapistsDashboard />} />
-        <Route path="/book-payment" element={<BookPayment />} />
-        <Route path="/confirmation" element={<Confirmation />} />
-        <Route path="/user-bookings" element={<UserBookings />} />
-        <Route path="/therapist-bookings" element={<TherapistsBookings therapistId={3} />} />
-        <Route path="/appointments-requests" element={<AppointmentsRequests therapistId={5} />} />
-        <Route path="/patient-overview" element={<PatientOverview />} />
-        <Route path="/user-message" element={<UserMessage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/sessions" element={<DoctorsList2 />} />
-        <Route path="/specialists" element={<Specialists />} />
+        {/* Routes with header and footer */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/hero" element={<Hero />} />
+          <Route path="/case" element={<DetailsCaseStudies />} />
+          <Route path="/doctor" element={<DoctorsList />} />
+          <Route path="/sessions" element={<DoctorsList2 />} />
+          <Route path="/specialists" element={<Specialists />} />
+          <Route path="/booktraining" element={<BookTraining />} />
+          <Route path="/checkout" element={<CheckoutPage amount={100} />} />
+          <Route path="/sidebar" element={<Sidebar isOpen={true} toggleSidebar={() => {}} />} />
+        </Route>
+
+        {/* Auth routes without header and footer */}
+        <Route element={<BlankLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        {/* User dashboard routes without header and footer */}
+        <Route element={<BlankLayout />}>
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/payment" element={<UserPayment />} />
+          <Route path="/sessions" element={<Session />} />
+          <Route path="/book-session" element={<BookSession />} />
+          <Route path="/appointments" element={<Appointment />} />
+          <Route path="/book-payment" element={<BookPayment />} />
+          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/user-bookings" element={<UserBookings />} />
+          <Route path="/user-message" element={<UserMessage />} />
+        </Route>
+
+        {/* Admin dashboard routes without header and footer */}
+        <Route element={<BlankLayout />}>
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/appointments" element={<AppointmentTable />} />
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/sessions" element={<Sessions />} />
+          <Route path="/admin/bookings" element={<Bookings />} />
+          <Route path="/admin/therapists" element={<Therapists />} />
+          <Route path="/admin/payments" element={<Payments />} />
+        </Route>
+
+        {/* Therapist dashboard routes without header and footer */}
+        <Route element={<BlankLayout />}>
+          <Route path="/therapist-dashboard/:id" element={<TherapistsDashboard />} />
+          <Route path="/therapist-bookings" element={<TherapistsBookings therapistId={3} />} />
+          <Route path="/appointments-requests" element={<AppointmentsRequests therapistId={5} />} />
+          <Route path="/patient-overview" element={<PatientOverview />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
+
+        {/* Error pages */}
         <Route path="/404" element={<NotFoundPage />} />
-        <Route path="*" element={<Navigate to="/404" replace />} />        <Route
-           path="/checkout"
-           element={<CheckoutPage amount={100} />} // Pass an amount (e.g., 100)
-        />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
-      <Footer />
     </Router>
   );
 }
