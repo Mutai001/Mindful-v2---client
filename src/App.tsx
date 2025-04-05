@@ -65,7 +65,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/chatbot" element={<Chatbot />} />
+          {/* <Route path="/chatbot" element={<Chatbot />} /> */}
           <Route path="/hero" element={<Hero />} />
           <Route path="/case" element={<DetailsCaseStudies />} />
           <Route path="/doctor" element={<DoctorsList />} />
@@ -93,6 +93,8 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/user-bookings" element={<UserBookings />} />
           <Route path="/user-message" element={<UserMessage />} />
+          <Route path="/chatbot" element={<Chatbot />} />
+
         </Route>
 
         {/* Admin dashboard routes without header and footer */}
