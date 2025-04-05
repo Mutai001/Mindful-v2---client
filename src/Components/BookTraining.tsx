@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import anxietyImg from "../assets/images/train1.jpg";
-import depressionImg from "../assets/images/train2.jpg";
-import ptsdImg from "../assets/images/train3.avif";
-import ocdImg from "../assets/images/train4.jpg";
-import stressImg from "../assets/images/train5.jpg";
-import bipolarImg from "../assets/images/train61.jpg";
+import { 
+  Brain, 
+  Sparkles, 
+  Heart, 
+  ListChecks, 
+  Lightbulb, 
+  Waves
+} from "lucide-react";
 
 const trainingData = [
   {
@@ -13,85 +15,110 @@ const trainingData = [
     title: "Managing Anxiety",
     description:
       "Learn effective techniques like Cognitive Behavioral Therapy (CBT) and guided meditation to reduce anxiety symptoms.",
-    image: anxietyImg,
+    icon: Waves,
+    color: "bg-blue-100",
+    iconColor: "text-blue-600",
+    accent: "border-blue-400"
   },
   {
     id: 2,
     title: "Overcoming Depression",
     description:
       "Our structured programs include positive psychology, exercise therapy, and interpersonal therapy for long-term recovery.",
-    image: depressionImg,
+    icon: Sparkles,
+    color: "bg-purple-100",
+    iconColor: "text-purple-600",
+    accent: "border-purple-400"
   },
   {
     id: 3,
     title: "PTSD Recovery Program",
     description:
       "We use Exposure Therapy, EMDR, and resilience training to help patients heal from traumatic experiences.",
-    image: ptsdImg,
+    icon: Heart,
+    color: "bg-red-100", 
+    iconColor: "text-red-600",
+    accent: "border-red-400"
   },
   {
     id: 4,
     title: "Coping with OCD",
     description:
       "Exposure and Response Prevention (ERP) and mindfulness exercises help manage compulsive behaviors effectively.",
-    image: ocdImg,
+    icon: ListChecks,
+    color: "bg-amber-100",
+    iconColor: "text-amber-600",
+    accent: "border-amber-400"
   },
   {
     id: 5,
     title: "Stress Management",
     description:
       "Our training focuses on breathing exercises, relaxation techniques, and time management strategies for stress reduction.",
-    image: stressImg,
+    icon: Brain,
+    color: "bg-emerald-100",
+    iconColor: "text-emerald-600",
+    accent: "border-emerald-400"
   },
   {
     id: 6,
     title: "Bipolar Disorder Therapy",
     description:
       "Cognitive therapy, mood stabilization exercises, and lifestyle adjustments help maintain emotional balance.",
-    image: bipolarImg,
+    icon: Lightbulb,
+    color: "bg-indigo-100",
+    iconColor: "text-indigo-600",
+    accent: "border-indigo-400"
   },
 ];
 
 const BookTraining: React.FC = () => {
   const navigate = useNavigate();
-
+  
   const handleBooking = () => {
     navigate("/register");
   };
-
+  
   return (
-    <section className="py-12 px-6 bg-gray-100">
-      <h2 className="text-3xl font-bold text-green-900 text-center mb-8">
-        Book a Mental Health Training
-      </h2>
-
-      <div className="max-w-5xl mx-auto space-y-12">
-        {trainingData.map((training, index) => (
-          <div
-            key={training.id}
-            className={`flex flex-col md:flex-row ${
-              index % 2 === 0 ? "md:flex-row-reverse" : ""
-            } items-center bg-white p-6 rounded-lg shadow-md space-y-4 md:space-y-0 md:space-x-6`}
-          >
-            <img
-              src={training.image}
-              alt={training.title}
-              className="w-full md:w-1/2 rounded-lg shadow-lg"
-            />
-            <div className="md:w-1/2 text-center md:text-left">
-              <h3 className="text-2xl font-semibold text-green-800">
-                {training.title}
-              </h3>
-              <p className="text-gray-700 mt-2">{training.description}</p>
-              <button
-                onClick={handleBooking}
-                className="mt-4 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition"
-              >
-                Book Training
-              </button>
+    <section className="py-16 px-6 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-teal-500">
+          Mental Health Training Programs
+        </h2>
+        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          Expert-led programs designed to provide you with effective tools and strategies for better mental wellbeing
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {trainingData.map((training) => (
+            <div
+              key={training.id}
+              className={`flex flex-col h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl bg-white border-l-4 ${training.accent}`}
+            >
+              <div className={`p-8 flex items-center ${training.color} border-b border-gray-100`}>
+                <div className={`p-4 rounded-full ${training.iconColor} bg-white mr-4`}>
+                  <training.icon size={32} />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800">
+                  {training.title}
+                </h3>
+              </div>
+              
+              <div className="p-6 flex-grow">
+                <p className="text-gray-600">{training.description}</p>
+              </div>
+              
+              <div className="p-6 pt-0">
+                <button
+                  onClick={handleBooking}
+                  className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-300 bg-gradient-to-r from-green-600 to-teal-500 hover:from-green-700 hover:to-teal-600 transform hover:-translate-y-1`}
+                >
+                  Book This Training
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
