@@ -73,7 +73,6 @@ function App() {
           <Route path="/specialists" element={<Specialists />} />
           <Route path="/booktraining" element={<BookTraining />} />
           <Route path="/checkout" element={<CheckoutPage amount={100} />} />
-          <Route path="/sidebar" element={<Sidebar isOpen={true} toggleSidebar={() => {}} />} />
         </Route>
 
         {/* Auth routes without header and footer */}
@@ -84,6 +83,7 @@ function App() {
 
         {/* User dashboard routes without header and footer */}
         <Route element={<BlankLayout />}>
+        <Route path="/sidebar" element={<Sidebar isOpen={true} toggleSidebar={() => {}} />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/payment" element={<UserPayment />} />
           <Route path="/sessions" element={<Session />} />
