@@ -58,6 +58,18 @@ const Header: React.FC = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   };
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -78,7 +90,7 @@ const Header: React.FC = () => {
       >
         <motion.img
           src={logo}
-          alt=""
+          alt="Mindful logo"
           className="h-8 sm:h-10 w-auto"
           whileHover={{ rotate: 10 }}
           transition={{ type: "spring", stiffness: 300 }}
@@ -165,7 +177,11 @@ const Header: React.FC = () => {
               exit={{ y: "100%", opacity: 0 }}
               transition={{ type: "spring", damping: 25 }}
               className="fixed md:hidden bottom-0 left-0 right-0 bg-green-800 text-white rounded-t-3xl shadow-2xl p-4 z-40"
-              style={{ height: "80vh", maxHeight: "calc(100vh - 60px)" }}
+              style={{ 
+                height: "auto",
+                maxHeight: "80vh",
+                overflowY: "auto"
+              }}
               id="mobile-menu"
               role="dialog"
               aria-modal="true"
@@ -180,7 +196,7 @@ const Header: React.FC = () => {
                 </button>
               </div>
               
-              <nav className="h-full flex flex-col justify-between overflow-y-auto">
+              <nav className="flex flex-col">
                 <ul className="space-y-3">
                   {navItems.map((item) => (
                     <li key={item.path}>
