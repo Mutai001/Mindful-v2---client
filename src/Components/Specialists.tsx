@@ -27,14 +27,14 @@ const Specialists: React.FC = () => {
   // Generate avatar colors based on therapist id for consistent but unique colors
   const getAvatarColors = (id: number) => {
     const colors = [
-      { bg: "bg-indigo-100", text: "text-indigo-600", accentBg: "bg-indigo-600" },
-      { bg: "bg-emerald-100", text: "text-emerald-600", accentBg: "bg-emerald-600" },
-      { bg: "bg-amber-100", text: "text-amber-600", accentBg: "bg-amber-600" },
-      { bg: "bg-rose-100", text: "text-rose-600", accentBg: "bg-rose-600" },
-      { bg: "bg-cyan-100", text: "text-cyan-600", accentBg: "bg-cyan-600" },
-      { bg: "bg-violet-100", text: "text-violet-600", accentBg: "bg-violet-600" },
-      { bg: "bg-lime-100", text: "text-lime-600", accentBg: "bg-lime-600" },
-      { bg: "bg-pink-100", text: "text-pink-600", accentBg: "bg-pink-600" },
+      { bg: "bg-green-100", text: "text-green-600", accentBg: "bg-green-600" },
+      { bg: "bg-green-100", text: "text-green-700", accentBg: "bg-green-700" },
+      { bg: "bg-green-50", text: "text-green-600", accentBg: "bg-green-600" },
+      { bg: "bg-green-100", text: "text-green-800", accentBg: "bg-green-800" },
+      { bg: "bg-green-50", text: "text-green-700", accentBg: "bg-green-700" },
+      { bg: "bg-green-100", text: "text-green-600", accentBg: "bg-green-600" },
+      { bg: "bg-green-50", text: "text-green-800", accentBg: "bg-green-800" },
+      { bg: "bg-green-100", text: "text-green-700", accentBg: "bg-green-700" },
     ];
     return colors[id % colors.length];
   };
@@ -106,7 +106,7 @@ const Specialists: React.FC = () => {
   }
 
   return (
-    <section className="min-h-screen w-full py-16 bg-gradient-to-b from-green-50 to-green-100">
+    <section className="min-h-screen w-full py-16 bg-gradient-to-b from-white to-green-50">
       {/* Heading with enhanced styling */}
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-green-900 mb-4">
