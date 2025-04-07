@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { FaCalendarAlt, FaRegComment, FaChartLine, FaVideo, FaBars, FaTimes, FaHome, FaUserMd, FaRobot, FaSignOutAlt, FaSearch, FaBookMedical } from "react-icons/fa";
+import { FaCalendarAlt, FaRegComment, FaChartLine, FaVideo, FaBars, FaTimes, FaUserMd, FaRobot, FaSignOutAlt, FaSearch, FaBookMedical, FaHeartbeat } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import "chart.js/auto";
 
 // Import images
-// import DashboardIllustration from "../assets/images/case3.avif";
 import Doctor1 from "../assets/images/Doc 1.webp";
 import Doctor2 from "../assets/images/Doc 2.webp";
 import Doctor3 from "../assets/images/Doc 3.jpg";
@@ -68,7 +67,10 @@ const UserDashboard = () => {
       {/* Sidebar */}
       <aside className={`bg-green-700 text-white w-64 p-5 transition-all duration-300 ${isSidebarOpen ? "block" : "hidden"} md:block`}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">Health Portal</h2>
+          <div className="flex items-center space-x-2">
+            <FaHeartbeat className="text-2xl" />
+            <h2 className="text-xl font-bold">Vitality Connect</h2>
+          </div>
           <button onClick={() => setIsSidebarOpen(false)} className="md:hidden" title="Close Sidebar">
             <FaTimes size={20} />
           </button>
@@ -76,12 +78,7 @@ const UserDashboard = () => {
         <nav>
           <ul>
             <li className="mb-4">
-              <Link to="/" className="flex items-center p-2 hover:bg-green-600 rounded">
-                <FaHome className="mr-3" /> Home
-              </Link>
-            </li>
-            <li className="mb-4">
-              <Link to="/user-bookings" className="flex items-center p-2 hover:bg-green-600 rounded">
+              <Link to="/user-bookings" className="flex items-center p-2 hover:bg-green-600 rounded" onClick={(e) => e.stopPropagation()}>
                 <FaCalendarAlt className="mr-3" /> My Appointments
               </Link>
             </li>
@@ -121,8 +118,7 @@ const UserDashboard = () => {
           <button onClick={() => setIsSidebarOpen(true)} className="md:hidden" title="Open Sidebar">
             <FaBars size={24} />
           </button>
-          <h1 className="text-3xl font-bold text-green-800">Welcome to Your Health Portal</h1>
-          {/* <img src={DashboardIllustration} alt="Dashboard" className="w-32 h-auto" /> */}
+          <h1 className="text-3xl font-bold text-green-800">Welcome to Your Wellness Journey</h1>
         </div>
 
         {/* Services Navigation */}
@@ -144,7 +140,7 @@ const UserDashboard = () => {
         {activeTab === "services" ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Book a Session */}
-            <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-t-4 border-green-500">
               <div className="bg-green-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                 <FaBookMedical className="text-green-600 text-xl" />
               </div>
@@ -156,7 +152,7 @@ const UserDashboard = () => {
             </div>
 
             {/* Ask Health AI */}
-            <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-t-4 border-green-500">
               <div className="bg-green-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                 <FaRobot className="text-green-600 text-xl" />
               </div>
@@ -168,7 +164,7 @@ const UserDashboard = () => {
             </div>
 
             {/* Symptom Checker */}
-            <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-t-4 border-green-500">
               <div className="bg-green-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                 <FaChartLine className="text-green-600 text-xl" />
               </div>
@@ -205,9 +201,10 @@ const UserDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {doctors.map((doctor) => (
                 <div key={doctor.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="h-2 bg-green-500"></div>
                   <div className="p-4">
                     <div className="flex items-center mb-4">
-                      <img src={doctor.image} alt={doctor.name} className="w-16 h-16 rounded-full object-cover mr-4" />
+                      <img src={doctor.image} alt={doctor.name} className="w-16 h-16 rounded-full object-cover mr-4 border-2 border-green-200" />
                       <div>
                         <h3 className="font-semibold text-lg">{doctor.name}</h3>
                         <p className="text-green-600">{doctor.specialty}</p>
@@ -242,13 +239,13 @@ const UserDashboard = () => {
         )}
 
         {/* Upcoming Appointment (always visible) */}
-        <div className="mt-8 bg-white p-5 rounded-lg shadow-md">
+        <div className="mt-8 bg-white p-5 rounded-lg shadow-md border-l-4 border-green-500">
           <h2 className="text-xl font-semibold mb-4">Your Upcoming Appointment</h2>
           <div className="flex items-center">
-            <img src={Doctor2} alt="Doctor" className="w-16 h-16 rounded-full object-cover mr-4" />
+            <img src={Doctor2} alt="Doctor" className="w-16 h-16 rounded-full object-cover mr-4 border-2 border-green-200" />
             <div className="flex-1">
               <h3 className="font-semibold">Dr. Mark Okwena</h3>
-              <p className="text-gray-600">Neurology Consultation</p>
+              <p className="text-green-600">Neurology Consultation</p>
               <p className="text-sm text-gray-500">Tomorrow, 14 Mar 2025 at 9:00 AM</p>
             </div>
             <a
