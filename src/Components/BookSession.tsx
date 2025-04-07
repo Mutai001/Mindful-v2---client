@@ -755,12 +755,12 @@ const BookSession: React.FC = () => {
 
         setIsFetching(true);
         
-        const therapistsResponse = await fetch("http://localhost:8000/api/therapists", {
+        const therapistsResponse = await fetch("https://mindful-app-r8ur.onrender.com/api/therapists", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!therapistsResponse.ok) throw new Error("Failed to fetch therapists.");
         
-        const bookingsResponse = await fetch("http://localhost:8000/api/bookings", {
+        const bookingsResponse = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!bookingsResponse.ok) throw new Error("Failed to fetch bookings.");
@@ -815,7 +815,7 @@ const BookSession: React.FC = () => {
         session_fee: therapist?.session_fee || 3500
       };
 
-      const response = await fetch("http://localhost:8000/api/bookings", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

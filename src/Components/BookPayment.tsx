@@ -107,7 +107,7 @@ const BookPayment: React.FC<BookPaymentProps> = () => {
       };
       
       // Make API call to initiate payment
-      const response = await fetch("http://localhost:8000/api/mpesa/initiate", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/mpesa/initiate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
