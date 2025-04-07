@@ -50,7 +50,7 @@ const Appointments = () => {
   const fetchAppointments = async (token: string) => {
     try {
       // Fetch appointments
-      const appointmentsResponse = await fetch("http://localhost:8000/api/bookings", {
+      const appointmentsResponse = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const Appointments = () => {
       // Fetch payments for each appointment
       const paymentPromises = userAppointments.map(async (appt: Appointment) => {
         try {
-          const paymentResponse = await fetch(`http://localhost:8000/api/mpesa?booking_id=${appt.id}`, {
+          const paymentResponse = await fetch(`https://mindful-app-r8ur.onrender.com/api/mpesa?booking_id=${appt.id}`, {
             headers: {
               "Authorization": `Bearer ${token}`
             }
@@ -102,7 +102,7 @@ const Appointments = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/bookings/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/bookings/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`
