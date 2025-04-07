@@ -46,7 +46,7 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      const API_URL = "https://mindful-app-r8ur.onrender.com/auth/login";
+      const API_URL = "https://mindful-app-r8ur.onrender.com/api/auth/login";
       
       const response = await fetch(API_URL, {
         method: "POST",
