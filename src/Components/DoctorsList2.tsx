@@ -165,7 +165,7 @@ const DoctorsList2: React.FC = () => {
           throw new Error("Authentication required");
         }
 
-        const response = await fetch("http://localhost:8000/api/users", {
+        const response = await fetch("https://mindful-app-r8ur.onrender.com/api/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
