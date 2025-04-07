@@ -84,7 +84,7 @@ const Bookings = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/bookings");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings");
       if (!response.ok) throw new Error("Failed to fetch bookings");
       const data = await response.json();
       if (data.success && Array.isArray(data.data)) {
@@ -135,7 +135,7 @@ const Bookings = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/bookings", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -167,7 +167,7 @@ const Bookings = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this booking?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/bookings/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/bookings/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete booking");
@@ -186,7 +186,7 @@ const Bookings = () => {
     if (!editingBooking) return;
     
     try {
-      const response = await fetch(`http://localhost:8000/api/bookings/${editingBooking.id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/bookings/${editingBooking.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -2716,7 +2716,7 @@ const Therapists = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/users?role=therapist");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/users?role=therapist");
       if (!response.ok) throw new Error("Failed to fetch therapists");
       const data = await response.json();
       const filteredData = data.filter((user: Therapist) => user.role === "therapist");
@@ -2733,7 +2733,7 @@ const Therapists = () => {
     setLoadingSlots(true);
     setSlotsError(null);
     try {
-      const response = await fetch(`http://localhost:8000/api/time-slots?therapist_id=${therapistId}`);
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/time-slots?therapist_id=${therapistId}`);
       if (!response.ok) throw new Error("Failed to fetch slots");
       const data = await response.json();
       setTherapistSlots(Array.isArray(data) ? data : []);
@@ -2776,7 +2776,7 @@ const Therapists = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/users", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(therapistToCreate),
@@ -2806,7 +2806,7 @@ const Therapists = () => {
   const handleDelete = useCallback(async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this therapist?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/users/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete therapist");
@@ -2826,7 +2826,7 @@ const Therapists = () => {
     if (!editingTherapist) return;
     
     try {
-      const response = await fetch(`http://localhost:8000/api/users/${editingTherapist.id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/users/${editingTherapist.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingTherapist),
@@ -2892,7 +2892,7 @@ const Therapists = () => {
         throw new Error("This time slot already exists for the selected date");
       }
 
-      const response = await fetch("http://localhost:8000/api/time-slots", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/time-slots", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(slotData),
@@ -2918,7 +2918,7 @@ const Therapists = () => {
   const handleDeleteSlot = useCallback(async (slotId: number) => {
     if (!window.confirm("Are you sure you want to delete this time slot?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/time-slots/${slotId}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/time-slots/${slotId}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete time slot");

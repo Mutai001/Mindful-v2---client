@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react";
 import AdminLayout from "../../Components/Admin/AdminLayout";
 import { FaDownload, FaFilter, FaSearch, FaUserPlus, FaEdit, FaTrash, FaFilePdf, FaFileExcel } from "react-icons/fa";
@@ -66,7 +67,7 @@ const Patients = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/users?role=patient");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/users?role=patient");
       if (!response.ok) throw new Error("Failed to fetch patients");
       const data = await response.json();
       // Filter to ensure only patients are shown (double check)
@@ -105,7 +106,7 @@ const Patients = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/users", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPatient),
@@ -135,7 +136,7 @@ const Patients = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this patient?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/users/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete patient");
@@ -154,7 +155,7 @@ const Patients = () => {
     if (!editingPatient) return;
     
     try {
-      const response = await fetch(`http://localhost:8000/api/users/${editingPatient.id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/users/${editingPatient.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingPatient),
@@ -220,6 +221,7 @@ const Patients = () => {
     ]);
     
     // Add table
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (doc as any).autoTable({
       head: [['ID', 'Name', 'Email', 'Phone', 'Address', 'Created At']],
       body: tableData,

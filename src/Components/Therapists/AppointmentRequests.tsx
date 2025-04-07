@@ -53,7 +53,7 @@ const Appointments = ({ therapistId }: AppointmentsProps) => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:8000/api/bookings?therapistId=${therapistId}`
+          `https://mindful-app-r8ur.onrender.com/api/bookings?therapistId=${therapistId}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch appointments");
@@ -114,7 +114,7 @@ const Appointments = ({ therapistId }: AppointmentsProps) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/bookings/${id}`,
+        `https://mindful-app-r8ur.onrender.com/api/bookings/${id}`,
         {
           method: "DELETE",
         }
@@ -132,7 +132,7 @@ const Appointments = ({ therapistId }: AppointmentsProps) => {
     try {
       setUpdatingId(id);
       const response = await fetch(
-        `http://localhost:8000/api/bookings/${id}`,
+        `https://mindful-app-r8ur.onrender.com/api/bookings/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -223,7 +223,7 @@ const Appointments = ({ therapistId }: AppointmentsProps) => {
       // In a real implementation, you would use a library like jsPDF, pdfmake, or a server endpoint
       // This is a placeholder for demonstration
       const response = await fetch(
-        "http://localhost:8000/api/reports/appointments",
+        "https://mindful-app-r8ur.onrender.com/api/reports/appointments",
         {
           method: "POST",
           headers: {

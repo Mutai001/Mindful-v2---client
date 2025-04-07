@@ -1,6 +1,6 @@
 export const initiateMpesaPayment = async (phone: string, amount: number) => {
     try {
-        const response = await fetch("http://localhost:3000/api/initiate", {
+        const response = await fetch("https://mindful-app-r8ur.onrender.com/api/initiate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ phone, amount }),

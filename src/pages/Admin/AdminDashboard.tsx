@@ -42,9 +42,9 @@ const AdminDashboard = () => {
         
         // Fetch all data in parallel
         const [bookingsRes, usersRes, paymentsRes] = await Promise.all([
-          axios.get('http://localhost:8000/api/bookings'),
-          axios.get('http://localhost:8000/api/users'),
-          axios.get('http://localhost:8000/api/mpesa')
+          axios.get('https://mindful-app-r8ur.onrender.com/api/bookings'),
+          axios.get('https://mindful-app-r8ur.onrender.com/api/users'),
+          axios.get('https://mindful-app-r8ur.onrender.com/api/mpesa')
         ]);
 
         // Ensure we're setting arrays even if API doesn't return an array

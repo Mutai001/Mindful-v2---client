@@ -70,7 +70,7 @@ const Payments = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/mpesa");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/mpesa");
       if (!response.ok) throw new Error("Failed to fetch payments");
       const data = await response.json();
       
@@ -176,7 +176,7 @@ const Payments = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/mpesa/initiate", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/mpesa/initiate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -200,7 +200,7 @@ const Payments = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this payment record?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/mpesa/transactions/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/mpesa/transactions/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete payment");

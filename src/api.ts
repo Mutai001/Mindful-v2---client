@@ -9,7 +9,7 @@ export const createPaymentIntent = async (amount: number) => {
 
   try {
     // 🔹 Fetch `sessionId` from the backend
-    const sessionResponse = await fetch(`https://ai-mentalhealthplatform.onrender.com/api/session/${userId}`, {
+    const sessionResponse = await fetch(`https://mindful-app-r8ur.onrender.com/api/session/${userId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`, // Send token for authentication
@@ -29,7 +29,7 @@ export const createPaymentIntent = async (amount: number) => {
     }
 
     // 🔹 Proceed to create payment intent
-    const paymentResponse = await fetch("https://ai-mentalhealthplatform.onrender.com/api/payments/create-payment-intent", {
+    const paymentResponse = await fetch("https://mindful-app-r8ur.onrender.com/api/payments/create-payment-intent", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`, // Include token

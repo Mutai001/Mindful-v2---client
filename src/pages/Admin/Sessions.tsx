@@ -65,7 +65,7 @@ const Sessions = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/sessions");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/sessions");
       if (!response.ok) throw new Error("Failed to fetch sessions");
       const { data } = await response.json();
       
@@ -74,7 +74,7 @@ const Sessions = () => {
         // If user data not included, fetch it
         if (!session.booking.user) {
           try {
-            const userResponse = await fetch(`http://localhost:8000/api/users/${session.booking.user_id}`);
+            const userResponse = await fetch(`https://mindful-app-r8ur.onrender.com/api/users/${session.booking.user_id}`);
             if (userResponse.ok) {
               session.booking.user = await userResponse.json();
             }
@@ -86,7 +86,7 @@ const Sessions = () => {
         // If therapist data not included, fetch it
         if (!session.booking.therapist) {
           try {
-            const therapistResponse = await fetch(`http://localhost:8000/api/therapists/${session.booking.therapist_id}`);
+            const therapistResponse = await fetch(`https://mindful-app-r8ur.onrender.com/api/therapists/${session.booking.therapist_id}`);
             if (therapistResponse.ok) {
               session.booking.therapist = await therapistResponse.json();
             }
@@ -111,7 +111,7 @@ const Sessions = () => {
 
   const fetchTherapists = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/therapists");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/therapists");
       if (!response.ok) throw new Error("Failed to fetch therapists");
       const data = await response.json();
       setTherapists(data);
@@ -175,7 +175,7 @@ const Sessions = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/sessions", {
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -203,7 +203,7 @@ const Sessions = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this session?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/sessions/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/sessions/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete session");
@@ -222,7 +222,7 @@ const Sessions = () => {
     if (!editingSession) return;
     
     try {
-      const response = await fetch(`http://localhost:8000/api/sessions/${editingSession.id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/sessions/${editingSession.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

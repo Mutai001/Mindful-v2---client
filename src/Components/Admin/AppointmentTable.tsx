@@ -56,7 +56,7 @@ const Appointments = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8000/api/bookings");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings");
       if (!response.ok) throw new Error("Failed to fetch appointments");
       const data = await response.json();
       
@@ -123,7 +123,7 @@ const Appointments = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this appointment?")) return;
     try {
-      const response = await fetch(`http://localhost:8000/api/bookings/${id}`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/bookings/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete appointment");
