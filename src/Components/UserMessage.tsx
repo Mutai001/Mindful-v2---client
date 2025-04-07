@@ -87,7 +87,7 @@ const UserMessage = () => {
       
       try {
         // Attempt to fetch from API
-        const response = await fetch('http://localhost:8000/api/users?role=therapist');
+        const response = await fetch('https://mindful-app-r8ur.onrender.com/api/users?role=therapist');
         
         if (!response.ok) {
           throw new Error('Failed to fetch Users');
