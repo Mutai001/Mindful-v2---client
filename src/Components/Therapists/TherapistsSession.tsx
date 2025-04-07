@@ -75,7 +75,7 @@ const Bookings = ({ therapistId }: { therapistId: number }) => {
       try {
         console.log("Fetching bookings for therapist ID:", therapistId);
         const response = await fetch(
-          `http://localhost:8000/api/bookings?therapist_id=${therapistId}`
+          `https://mindful-app-r8ur.onrender.com/api/bookings?therapist_id=${therapistId}`
         );
     
         if (!response.ok) {
@@ -130,7 +130,7 @@ const Bookings = ({ therapistId }: { therapistId: number }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/send-meet-link`, {
+      const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/send-meet-link`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 

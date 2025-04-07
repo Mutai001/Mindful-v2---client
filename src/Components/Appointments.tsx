@@ -19,7 +19,7 @@ const Appointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/bookings");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings");
       if (!response.ok) throw new Error("Failed to fetch appointments");
       
       const data: Appointment[] = await response.json();
