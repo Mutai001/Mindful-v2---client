@@ -201,7 +201,12 @@ const Slots: React.FC<SlotsProps> = ({
       const createdSlot = await createTimeSlot(newSlot);
       toast.success(`Slot created: ${formatTimeDisplay(slot.start_time)} - ${formatTimeDisplay(slot.end_time)}`);
       setAvailableSlots(prev => [...prev, createdSlot]);
-      setNewlyCreatedSlots(prev => [...prev, createdSlot.id]);
+      
+      // Fix: Ensure createdSlot.id is defined before adding to newlyCreatedSlots
+      if (createdSlot.id !== undefined) {
+        setNewlyCreatedSlots(prev => [...prev, createdSlot.id as number]);
+      }
+      
       setSelectedSlot(createdSlot);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to create slot");

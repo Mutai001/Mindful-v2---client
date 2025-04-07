@@ -2716,7 +2716,7 @@ const Therapists = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://mindful-app-r8ur.onrender.com/users?role=therapist");
+      const response = await fetch("https://mindful-app-r8ur.onrender.com/api/users?role=therapist");
       if (!response.ok) throw new Error("Failed to fetch therapists");
       const data = await response.json();
       const filteredData = data.filter((user: Therapist) => user.role === "therapist");

@@ -11,6 +11,18 @@ import {
 } from "react-icons/fa";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+// Import the autoTable type to extend jsPDF
+import { UserOptions } from "jspdf-autotable";
+
+// Extend the jsPDF type to include autoTable
+declare module 'jspdf' {
+  interface jsPDF {
+    autoTable: (options: UserOptions) => jsPDF;
+    lastAutoTable: {
+      finalY: number;
+    };
+  }
+}
 
 interface Payment {
   id: number;
