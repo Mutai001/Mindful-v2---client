@@ -114,7 +114,7 @@ const Slots: React.FC<SlotsProps> = ({
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Authentication required");
 
-    const response = await fetch("http://localhost:8000/api/time-slots", {
+    const response = await fetch("https://mindful-app-r8ur.onrender.com/api/time-slots", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +143,7 @@ const Slots: React.FC<SlotsProps> = ({
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Authentication required");
 
-    const response = await fetch(`http://localhost:8000/api/time-slots/${slot.id}`, {
+    const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/time-slots/${slot.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -164,7 +164,7 @@ const Slots: React.FC<SlotsProps> = ({
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Authentication required");
 
-    const response = await fetch(`http://localhost:8000/api/time-slots/${slotId}`, {
+    const response = await fetch(`https://mindful-app-r8ur.onrender.com/api/time-slots/${slotId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
