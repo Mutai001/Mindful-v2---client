@@ -52,7 +52,7 @@ const Specialists: React.FC = () => {
     const fetchTherapists = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:8000/api/users");
+        const response = await axios.get("https://mindful-app-r8ur.onrender.com/api/users");
         const therapistsData = response.data.filter(
           (user: Therapist) => user.role === "therapist"
         );
