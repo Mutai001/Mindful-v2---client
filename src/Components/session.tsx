@@ -2433,7 +2433,7 @@ const SessionBooking: React.FC = () => {
       const lastDay = new Date(month.getFullYear(), month.getMonth() + 1, 0);
 
       const response = await fetch(
-        `http://localhost:8000/api/time-slots?start_date=${firstDay.toISOString().split('T')[0]}&end_date=${lastDay.toISOString().split('T')[0]}`,
+        `https://mindful-app-r8ur.onrender.com/api/time-slots?start_date=${firstDay.toISOString().split('T')[0]}&end_date=${lastDay.toISOString().split('T')[0]}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -2558,7 +2558,7 @@ const SessionBooking: React.FC = () => {
         booking_status: "Pending"
       };
 
-      const bookingResponse = await fetch("http://localhost:8000/api/bookings", {
+      const bookingResponse = await fetch("https://mindful-app-r8ur.onrender.com/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
